@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous">
+    <style>
+        body{margin:10px;}
+    </style>
+
+</head>
+<body>
+
+<form action="#" th:action="@{/expenditures/create}" th:object="${expenditure}" method="post">
+    <p><input placeholder="Name" type="text" th:field="*{name}"/></p>
+    <p><input placeholder="Quantity" type="text" th:field="*{quantity}"/></p>
+    <p>
+        <select title="Tags" class="selectpicker" th:field="*{tags}" multiple>
+            <option th:each="tag: ${tags}"
+                    th:value="${tag.id}" th:text="${tag.name}">
+        </select>
+    </p>
+    <p>
+        <select title="Unit" class="selectpicker" th:field="*{unit}">
+            <option th:each="unit: ${T(tl.azkom.treasury.entities.ExpenditureUnit).values()}"
+                    th:value="${unit}" th:text="${unit.name}">
+        </select>
+    </p>
+    <p><input type="submit" class="btn btn-primary" value="Submit"/> <input class="btn btn-secondary" type="reset" value="Reset"/></p>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th> Id</th>
+        <th> Name</th>
+        <th> Unit</th>
+        <th> Quantity</th>
+        <th> Tags</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="expenditure : ${expenditures}">
+        <td><span th:text="${expenditure.id}"> Id </span></td>
+        <td><span th:text="${expenditure.name}"> Name </span></td>
+        <td><span th:text="${expenditure.unit}"> Unit </span></td>
+        <td><span th:text="${expenditure.quantity}"> Quantity </span></td>
+        <td><span th:each="tag: ${expenditure.tags}"> <span th:text="${tag.name} + ' '"></span></span></td>
+        <td>
+            <button class="btn btn-outline-danger btn-sm" th:attr="onclick=|location.href='/expenditures/delete/${expenditure.id}'|"> Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!--<select class="form-control" id="dropDownList">-->
+<!--    <option value="0">select option</option>-->
+<!--    <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>-->
+<!--</select>-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</body>
+</html>
